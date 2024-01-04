@@ -30,14 +30,14 @@ int main( int argc, char **argv ) {
 		exit( EXIT_FAILURE );
 	}
 	struct aggregates_t {
-		double min = std::numeric_limits<double>::max( );
-		double max = std::numeric_limits<double>::lowest( );
-		double mean = 0;
-		double count = 0;
+		float min = std::numeric_limits<float>::max( );
+		float max = std::numeric_limits<float>::lowest( );
+		float mean = 0;
+		float count = 0;
 
 		aggregates_t( ) = default;
 
-		constexpr void update( double value ) {
+		constexpr void update( float value ) {
 			if( value < min ) {
 				min = value;
 			}
@@ -45,8 +45,8 @@ int main( int argc, char **argv ) {
 				max = value;
 			}
 			count = count + 1;
-			mean = mean + (value-mean)/count;
-			//mean = mean * ( ( count - 1 ) / count ) + value / count;
+			mean = mean + ( value - mean ) / count;
+			// mean = mean * ( ( count - 1 ) / count ) + value / count;
 		}
 	};
 	auto aggregates = boost::container::flat_map<sv_t, aggregates_t>{ };
@@ -55,11 +55,11 @@ int main( int argc, char **argv ) {
 	while( not fdata.empty( ) ) {
 		auto name = fdata.pop_front_until( ';' );
 		auto value = fdata.pop_front_until( '\n' );
-		double temp;
+		float temp;
 		(void)fast_float::from_chars( value.data( ), value.data_end( ), temp );
 		aggregates[name].update( temp );
 	}
-	fmt::println( "Found {} cities", aggregates.size() );
+	fmt::println( "Found {} cities", aggregates.size( ) );
 	for( auto const &kv : aggregates ) {
 		fmt::println( "{}: min = {}, max = {}, median = {}, count = {}",
 		              static_cast<std::string>( kv.first ), kv.second.min,

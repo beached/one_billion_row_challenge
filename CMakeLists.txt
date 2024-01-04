@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.27 )
+cmake_minimum_required( VERSION 3.25 )
 project( one_billion_row_challenge )
 
 
