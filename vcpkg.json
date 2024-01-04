@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "one-billion-row-challenge",
+  "version": "0.1.0",
+  "dependencies": [
+    "daw-header-libraries",
+    "boost-container",
+    "fast-float",
+    "fmt"
+  ]
+}
+
